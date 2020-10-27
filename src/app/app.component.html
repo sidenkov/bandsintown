@@ -1,26 +1,31 @@
-<mat-sidenav-container autosize>
+<mat-toolbar>
+  <span>bandsintown</span>
+</mat-toolbar>
+<mat-sidenav-container>
   <mat-sidenav-content>
     <div class="search-component">
-      <mat-form-field floatLabel="auto" appearance="outline" hideRequiredMarker>
+      <mat-form-field floatLabel="auto" appearance="fill" hideRequiredMarker>
         <mat-label>Artist</mat-label>
         <input matInput required (input)="inputHandler($event)">
+        <mat-hint>Band's favourite city? {{ favouriteCity }}!</mat-hint>
       </mat-form-field>
       <button type="submit" mat-raised-button color="primary" (click)="getAllEvents()">Search</button>
       <!--        (keydown.enter)="inputHandler($event)"-->
     </div>
 
+<!--    <div class="events" *ngIf="(pastEvents$ | async).length">-->
     <div class="events">
       <div class="upcoming-events">
         <h2 class="mat-h2 events-heading">Upcoming Events</h2>
         <app-event
-          *ngFor="let event of upcomingEvents | async"
+          *ngFor="let event of upcomingEvents$ | async"
           [event]="event"
         ></app-event>
       </div>
       <div class="past-events">
         <h2 class="mat-h2 events-heading">Past Events</h2>
         <app-event
-          *ngFor="let event of pastEvents | async"
+          *ngFor="let event of pastEvents$ | async"
           [event]="event"
         ></app-event>
       </div>
