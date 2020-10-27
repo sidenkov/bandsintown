@@ -23,6 +23,8 @@ export class AppComponent {
   pastEvents$: Observable<Event[]>;
   allEvents: any[];
   favouriteCity = 'Who knows';
+  upcomingEventsLoaded = false;
+  pastEventsLoaded = false;
 
   inputHandler(event: any): void {
     this.inputValue = event.target.value;
@@ -32,10 +34,12 @@ export class AppComponent {
     this.allEvents = [];
     this.getUpcomingEvents().subscribe((events: any[]) => {
       this.allEvents = this.allEvents.concat(events);
+      this.upcomingEventsLoaded = true;
     });
     this.getPastEvents().subscribe((events: any[]) => {
       this.allEvents = this.allEvents.concat(events);
       this.findFavourite();
+      this.pastEventsLoaded = true;
     });
   }
 

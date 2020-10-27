@@ -13,8 +13,7 @@
       <!--        (keydown.enter)="inputHandler($event)"-->
     </div>
 
-<!--    <div class="events" *ngIf="(pastEvents$ | async).length">-->
-    <div class="events">
+    <div class="events" *ngIf="pastEventsLoaded && upcomingEventsLoaded">
       <div class="upcoming-events">
         <h2 class="mat-h2 events-heading">Upcoming Events</h2>
         <app-event
