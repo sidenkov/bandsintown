@@ -1,8 +1,29 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav-content>
+    <div class="search-component">
+      <mat-form-field floatLabel="auto" appearance="outline" hideRequiredMarker>
+        <mat-label>Artist</mat-label>
+        <input matInput required (input)="inputHandler($event)">
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary" (click)="getAllEvents()">Search</button>
+      <!--        (keydown.enter)="inputHandler($event)"-->
+    </div>
 
-<div style="display: flex; justify-content: center; align-items: center; gap: .5rem">
-  <mat-form-field style="margin-bottom: -19px;" floatLabel="auto" appearance="outline" hideRequiredMarker>
-    <mat-label>Artist</mat-label>
-    <input matInput required>
-  </mat-form-field>
-  <button mat-raised-button color="primary">Search</button>
-</div>
+    <div class="events">
+      <div class="upcoming-events">
+        <h2 class="mat-h2 events-heading">Upcoming Events</h2>
+        <app-event
+          *ngFor="let event of upcomingEvents | async"
+          [event]="event"
+        ></app-event>
+      </div>
+      <div class="past-events">
+        <h2 class="mat-h2 events-heading">Past Events</h2>
+        <app-event
+          *ngFor="let event of pastEvents | async"
+          [event]="event"
+        ></app-event>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
