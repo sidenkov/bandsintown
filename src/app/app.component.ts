@@ -32,11 +32,18 @@ export class AppComponent {
 
   getAllEvents(): void {
     this.allEvents = [];
-    this.getUpcomingEvents().subscribe((events: any[]) => {
+
+    const artist = this.inputValue
+      .replace(/\?/gi, '\%253F')
+      .replace(/\//gi, '\%252F')
+      .replace(/\*/gi, '\%252A')
+      .replace(/\\&quot;/gi, '\%27C');
+
+    this.getUpcomingEvents(artist).subscribe((events: any[]) => {
       this.allEvents = this.allEvents.concat(events);
       this.upcomingEventsLoaded = true;
     });
-    this.getPastEvents().subscribe((events: any[]) => {
+    this.getPastEvents(artist).subscribe((events: any[]) => {
       this.allEvents = this.allEvents.concat(events);
       this.findFavourite();
       this.pastEventsLoaded = true;
@@ -58,15 +65,15 @@ export class AppComponent {
     this.favouriteCity = result[0];
   }
 
-  getPastEvents(): Observable<any[]> {
+  getPastEvents(artist: string): Observable<any[]> {
     const params = new HttpParams().set('app_id', this.appId).set('date', 'past');
-    const req = this.rootUrl + '/artists/' + this.inputValue + '/events';
+    const req = this.rootUrl + '/artists/' + artist + '/events';
     return this.pastEvents$ = this.http.get<any[]>(req, {params});
   }
 
-  getUpcomingEvents(): Observable<any[]> {
+  getUpcomingEvents(artist: string): Observable<any[]> {
     const params = new HttpParams().set('app_id', this.appId).set('date', 'upcoming');
-    const req = this.rootUrl + '/artists/' + this.inputValue + '/events';
+    const req = this.rootUrl + '/artists/' + artist + '/events';
     return this.upcomingEvents$ = this.http.get<any[]>(req, {params});
   }
 }
