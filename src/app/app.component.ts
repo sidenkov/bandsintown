@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {Event} from './interfaces/event';
-import has = Reflect.has;
 
 @Component({
   selector: 'app-root',
@@ -11,17 +9,18 @@ import has = Reflect.has;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   appId = '11';
   title = 'BandsInTown';
   inputValue = '';
 
   readonly rootUrl = 'https://rest.bandsintown.com';
+
   upcomingEvents$: Observable<Event[]>;
   pastEvents$: Observable<Event[]>;
   allEvents: any[];
+
   favouriteCity = 'Who knows';
   upcomingEventsLoaded = false;
   pastEventsLoaded = false;
@@ -43,6 +42,7 @@ export class AppComponent {
       this.allEvents = this.allEvents.concat(events);
       this.upcomingEventsLoaded = true;
     });
+
     this.getPastEvents(artist).subscribe((events: any[]) => {
       this.allEvents = this.allEvents.concat(events);
       this.findFavourite();
@@ -68,12 +68,14 @@ export class AppComponent {
   getPastEvents(artist: string): Observable<any[]> {
     const params = new HttpParams().set('app_id', this.appId).set('date', 'past');
     const req = this.rootUrl + '/artists/' + artist + '/events';
+
     return this.pastEvents$ = this.http.get<any[]>(req, {params});
   }
 
   getUpcomingEvents(artist: string): Observable<any[]> {
     const params = new HttpParams().set('app_id', this.appId).set('date', 'upcoming');
     const req = this.rootUrl + '/artists/' + artist + '/events';
+
     return this.upcomingEvents$ = this.http.get<any[]>(req, {params});
   }
 }
